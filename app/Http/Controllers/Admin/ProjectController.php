@@ -7,6 +7,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
 use App\Models\Type;
+use App\Models\Technology;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -35,7 +36,8 @@ class ProjectController extends Controller
     public function create()
     {
         $categories = Type::orderBy('name', 'asc')->get();
-        return view('admin.projects.create', compact('categories'));
+        $technologies = Technology::orderBy('name', 'asc')->get();
+        return view('admin.projects.create', compact('categories', 'technologies'));
     }
 
     /**
@@ -62,6 +64,17 @@ class ProjectController extends Controller
 
         $form_data['slug'] = $slug;
         $new_project = Project::create($form_data);
+
+        // controlliamo se sono stati inviati dei tags
+        if ($request->has('technologies')) {
+            // $post->tags()->attach($form_data['tags']);
+            $new_project->technologies()->attach($form_data['technologies']);
+        }
+
+        //dd($form_data);
+        //dd($new_project);
+        $new_project->save();
+
         return to_route('admin.projects.index', $new_project);
     }
 
@@ -71,6 +84,7 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         $categories = Type::orderBy('name', 'asc')->get();
+        $project->load('technologies', 'technologies.projects');
         return view('admin.projects.show', compact('project'));
     }
 

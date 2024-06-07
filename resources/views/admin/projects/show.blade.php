@@ -6,6 +6,11 @@
     <p>
         <span>Type:</span> {{($project->type)->name ?? 'no type' }}
     </p>
+    <ul class="d-flex gap-2 list-unstyled">
+        @foreach($project->technologies as $technology)
+        <li>{{ $technology->name }}</li>
+        @endforeach
+    </ul>
     <a class="btn btn-secondary" href="{{route('admin.projects.index')}}">Back to projects</a>
     <a class="btn btn-secondary" href="{{route('admin.projects.edit', $project)}}">Edit</a>
     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{$project->id}}">

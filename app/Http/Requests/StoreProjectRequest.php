@@ -25,7 +25,7 @@ class StoreProjectRequest extends FormRequest
             'title' => 'required|max:150|string',
             'description' => 'required|string',
             'type_id' => 'required',
-
+            'technologies' => 'required',
         ];
     }
 }
