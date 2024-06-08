@@ -4,7 +4,7 @@
     <h3>Edit Project</h3>
 </div>
 <div class="container">
-    <form action="{{ route('admin.projects.update', $project) }}" method="POST">
+    <form class="mb-3" action="{{ route('admin.projects.update', $project) }}" method="POST">
         @csrf
         @method('PUT')
         <div class="mb-3">
@@ -25,13 +25,36 @@
             </select>
         </div>
 
-        <div class="mb-3">
-            <label for="slug" class="form-label">Slug</label>
-            <input type="text" class="form-control" name="slug" id="slug" placeholder="Slug articolo" value="{{ old('slug',$project->slug) }}">
-        </div>
+        <div class="form-group">
+            <div>Select technology</div>
 
-        <button class="btn btn-primary">Save</button>
-        <a class="btn btn-secondary" href="{{route('admin.projects.index')}}">Back to projects</a>
+            <!-- {{-- @dump(old('tags',[])) --}}
+          {{-- collection di istanze di tipo Tag --}}
+          {{-- @dump($post->tags) --}}
+          {{-- collection di interi (id) --}}
+          {{-- @dump($post->tags->pluck('id')) --}}
+          {{-- arry di interi (id) --}}
+          {{-- @dump($post->tags->pluck('id')->all()) --}} -->
+            <div class="d-flex gap-2 mb-2">
+                @foreach ($technologies as $technology)
+
+                <div class="form-check">
+                    <input @checked( in_array($technology->id, old('technologies',$project->technologies->pluck('id')->all() )) ) name="technologies[]" class="form-check-input" type="checkbox" value="{{ $technology->id }}" id="tag-{{$technology->id}}">
+                    <label class="form-check-label" for="technology-{{$technology->id}}">
+                        {{ $technology->name }}
+                    </label>
+                </div>
+                @endforeach
+            </div>
+
+
+            <div class="mb-3">
+                <label for="slug" class="form-label">Slug</label>
+                <input type="text" class="form-control" name="slug" id="slug" placeholder="Slug articolo" value="{{ old('slug',$project->slug) }}">
+            </div>
+
+            <button class="btn btn-primary">Save</button>
+            <a class="btn btn-secondary" href="{{route('admin.projects.index')}}">Back to projects</a>
     </form>
 
 

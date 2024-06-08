@@ -93,8 +93,10 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+        $project->load(['technologies']);
         $categories = Type::orderBy('name', 'asc')->get();
-        return view('admin.projects.edit', compact('categories', 'project'));
+        $technologies = Technology::orderBy('name', 'asc')->get();
+        return view('admin.projects.edit', compact('categories', 'project', 'technologies'));
     }
 
     /**
@@ -106,6 +108,14 @@ class ProjectController extends Controller
         $form_data = $request->validated();
 
         $project->update($form_data);
+
+        if ($request->has('technologies')) {
+            $project->technologies()->sync($request->technologies);
+        } else {
+            // l'utente non ha selezionato niente eliminiamo i collegamenti con i tags
+            $project->technologies()->detach();
+            // $post->tags()->sync([]); // fa la stessa cosa
+        }
 
         return to_route('admin.projects.show', $project);
     }

@@ -38,10 +38,7 @@
                                     <form class="delete-character" action="{{ route('admin.projects.destroy',$project) }}" method="POST">
 
 
-                                        @method('DELETE')
-                                        @csrf
-
-                                        <button class="btn btn-danger">Delete</button>
+                                        @method(' DELETE') @csrf <button class="btn btn-danger">Delete</button>
                                     </form>
                                 </div>
                             </div>
