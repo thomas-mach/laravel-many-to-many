@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="container-fluid">
+<div class="container-sm">
     <div class="mb-2 mt-2">Filter by:</div>
     <form class="" action="{{ route('welcome') }}" method="GET">
         <div class="row">
