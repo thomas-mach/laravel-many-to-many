@@ -17,17 +17,29 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function welcome()
+    public function welcome(Request $request)
     {
-        $projects = Project::all();
-        return view('welcome', compact('projects'));
+        // $projects = Project::all();
+        // return view('welcome', compact('projects'));
+
+        $typeId = $request->type_id;
+
+        // Filtra i progetti per tipo se è stato selezionato un tipo
+        $categories = Type::orderBy('name', 'asc')->get();
+        $projects = $typeId ? Project::where('type_id', $typeId)->get() : Project::all();
+
+        // Carica la vista con i progetti filtrati
+        return view('welcome', compact('projects', 'categories'))->with('typeId', $typeId);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $projects = Project::all();
-        // dd($projects[0]);
-        return view('admin.projects.index', compact('projects'));
+        $typeId = $request->type_id;
+
+        $categories = Type::orderBy('name', 'asc')->get();
+        $projects = $typeId ? Project::where('type_id', $typeId)->get() : Project::all();
+
+        return view('admin.projects.index', compact('projects', 'categories'))->with('typeId', $typeId);
     }
 
     /**

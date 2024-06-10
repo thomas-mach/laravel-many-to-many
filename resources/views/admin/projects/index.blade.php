@@ -1,9 +1,31 @@
 @extends('layouts.app')
 @section('content')
-<div class="container-fluid d-flex justify-content-center mt-3">
-    <table class="">
+<div class="container-fluid">
+    <div class="mb-2 mt-2">Filter by:</div>
+    <form class="" action="{{ route('admin.projects.index') }}" method="GET">
+        <div class="row">
+            <div class="col-md-6">
+                <select class="form-control" name="type_id" id="type_id" style="width: auto;">
+                    <option value="" disabled {{ $typeId ? '' : 'selected' }}>Categories</option>
+                    @foreach($categories as $category)
+                    <option value="{{ $category->id }}" {{ $typeId == $category->id ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end gap-2">
+                <button type="submit" class="btn btn-primary">Apply Filter</button>
+                <a href="{{ route('admin.projects.index') }}" class="btn btn-secondary">Reset</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="container-fluid mt-3 my-auto mx-auto">
+    <table class="container-sm ">
         <thead>
-            <tr>
+            <tr class="">
                 <th>Id</th>
                 <th>Title</th>
                 <th>Type</th>

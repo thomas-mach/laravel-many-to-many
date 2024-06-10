@@ -18,26 +18,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [ProjectController::class, 'welcome'])->name('welcome');
 
 
-
-
-
 Route::middleware(['auth', 'verified'])
     ->name('admin.')
     ->prefix('admin')
     ->group(function () {
-
         Route::get('/', [ProjectController::class, 'index'])->name('index_home');
         Route::resource('projects', ProjectController::class);
-
-        // Route::get('/', function () {
-        //     return view('admin.dashboard');
-        // })->name('dashboard');
-
-        // Route::get('admin/dashboard', function () {
-        //     return redirect()->route('admin.projects.index');
-        // });
-
-
     });
 
 Route::middleware('auth')->group(function () {
