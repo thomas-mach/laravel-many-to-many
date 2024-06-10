@@ -44,4 +44,9 @@
         </tbody>
     </table>
 </div>
+Users
+@foreach($users as $user)
+<p>{{$user->name}}</p>
+@endforeach
+
 @endsection

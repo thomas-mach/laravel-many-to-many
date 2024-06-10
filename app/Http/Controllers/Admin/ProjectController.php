@@ -7,6 +7,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
 use App\Models\Type;
+use App\Models\User;
 use App\Models\Technology;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -19,17 +20,13 @@ class ProjectController extends Controller
      */
     public function welcome(Request $request)
     {
-        // $projects = Project::all();
-        // return view('welcome', compact('projects'));
-
+        $users = User::all();
         $typeId = $request->type_id;
-
-        // Filtra i progetti per tipo se è stato selezionato un tipo
         $categories = Type::orderBy('name', 'asc')->get();
         $projects = $typeId ? Project::where('type_id', $typeId)->get() : Project::all();
 
         // Carica la vista con i progetti filtrati
-        return view('welcome', compact('projects', 'categories'))->with('typeId', $typeId);
+        return view('welcome', compact('projects', 'categories', 'users'))->with('typeId', $typeId);
     }
 
     public function index(Request $request)
