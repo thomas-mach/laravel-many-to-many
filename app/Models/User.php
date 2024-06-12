@@ -12,10 +12,10 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    // public function projects()
-    // {
-    //     return $this->hasMany(Project::class);
-    // }
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
 
 
 

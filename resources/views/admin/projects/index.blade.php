@@ -17,6 +17,7 @@
             <div class="col-md-6 d-flex justify-content-end gap-2">
                 <button type="submit" class="btn btn-primary">Apply Filter</button>
                 <a href="{{ route('admin.projects.index') }}" class="btn btn-secondary">Reset</a>
+                <a href="{{ route('admin.user_projects')}}" class="btn btn-secondary">My Projects</a>
             </div>
         </div>
     </form>

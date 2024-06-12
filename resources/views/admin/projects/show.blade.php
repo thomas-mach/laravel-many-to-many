@@ -6,6 +6,7 @@
     <p>
         <span>Type:</span> {{($project->type)->name ?? 'no type' }}
     </p>
+
     <ul class="d-flex gap-2 list-unstyled">
         @foreach($project->technologies as $technology)
         <li>{{ $technology->name }}</li>

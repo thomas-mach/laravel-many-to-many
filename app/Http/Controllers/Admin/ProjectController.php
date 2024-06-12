@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Technology;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
@@ -31,6 +32,7 @@ class ProjectController extends Controller
 
     public function index(Request $request)
     {
+
         $typeId = $request->type_id;
 
         $categories = Type::orderBy('name', 'asc')->get();
@@ -39,14 +41,33 @@ class ProjectController extends Controller
         return view('admin.projects.index', compact('projects', 'categories'))->with('typeId', $typeId);
     }
 
+    // public function showProjectsByUser($userId)
+    // {
+
+    //     $user = User::find($userId);
+    //     $projects = $user->projects;
+
+    //     return view('admin.user_projects', compact('projects'));
+    // }
+
+    public function showProjectsByUser()
+    {
+        $user = Auth::user();
+        $projects = $user->projects;
+
+        return view('admin.projects.user_projects', compact('projects'));
+    }
+
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
+        $userId =  Auth::id();
         $categories = Type::orderBy('name', 'asc')->get();
         $technologies = Technology::orderBy('name', 'asc')->get();
-        return view('admin.projects.create', compact('categories', 'technologies'));
+        return view('admin.projects.create', compact('categories', 'technologies', 'userId'));
     }
 
     /**
@@ -54,7 +75,6 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-
         $form_data = $request->validated();
         $base_slug = Str::slug($form_data['title']);
         $slug = $base_slug;
@@ -93,7 +113,7 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         $categories = Type::orderBy('name', 'asc')->get();
-        $project->load('technologies', 'technologies.projects');
+        $project->load('technologies', 'technologies.projects',);
         return view('admin.projects.show', compact('project'));
     }
 

@@ -9,7 +9,10 @@
 <div class="container">
     <form action="{{ route('admin.projects.store') }}" method="POST">
         @csrf
-
+        <div class="mb-3">
+            <label for="user" class="form-label">User</label>
+            <input type="text" class="form-control" name="user_id" id="user_id" value="{{$userId}}">
+        </div>
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input type="text" class="form-control" name="title" id="title" value="{{old('title')}}">
